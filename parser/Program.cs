@@ -12,7 +12,7 @@ namespace parser
             
             Parser.GetInfoCars();
 
-            Console.WriteLine("Ready!");
+            Console.WriteLine("Ready!!!!");
             Console.ReadKey();
 
         }
