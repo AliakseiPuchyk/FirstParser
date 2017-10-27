@@ -93,6 +93,7 @@ namespace parser
             for(int i =0; i < href.Count; i++)
             {
                 siteText = client.DownloadString(href[i]).Replace(" ", string.Empty);
+                System.Threading.Thread.Sleep(100);
                 findstr = "card-price-main";
                 firstPointOnStr = siteText.IndexOf(findstr);
                 tempString = siteText.Substring(firstPointOnStr + findstr.Length,40);
@@ -100,7 +101,7 @@ namespace parser
                 cars.Add(new Auto());
                 cars[i].Price = intInfo;
 
-                Console.WriteLine(cars[i].Price + href[i]);
+                Console.WriteLine(cars[i].Price +"\t"+ href[i]);
 
             }
 
