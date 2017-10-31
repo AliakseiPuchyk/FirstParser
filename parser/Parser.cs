@@ -1,50 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace parser
+namespace Parser
 {
-    class Parser
+    static class Parser
     {
-        private static int getCountOfPages()
-        {
-            var client = new System.Net.WebClient();
-            string findstr = "pages-numbers-item--active";
-            string flagnextpage = "pages-numbers-item";
-            string siteText = client.DownloadString("https://cars.av.by/bmw/3-reihe-e36/").Replace(" ", string.Empty);
-            int pointOnStr = 0;
-            int pointOnStrFlag = 0;
-            int countPages = 1;
-            bool EndFlag = true;
-
-            while (EndFlag)
-            {
-                siteText = client.DownloadString("https://cars.av.by/bmw/3-reihe-e36/page/"+ countPages).Replace(" ", string.Empty);
-                pointOnStr = siteText.IndexOf(findstr);
-                siteText = siteText.Substring(pointOnStr + findstr.Length);
-                pointOnStrFlag = siteText.IndexOf(flagnextpage);
-                if (pointOnStrFlag != -1)
-                    countPages++;
-                else EndFlag = false;
-                pointOnStrFlag = 0;
-            }
-
-            return countPages;
-
-        }
-        public static List<string> getHrefCar()
+        private static List<string> GetCarList()
         {
 
             var client = new System.Net.WebClient();
-            int count = 1;
             string href;
-            List<string> carsList = new List<string>();
-            int CountOfPages = getCountOfPages();
-            for (count = 1; count < CountOfPages + 1; count++)
+            var carsList = new List<string>();
+           // int CountOfPages = GetCountOfPages();
+            for (var count = 1; true; count++)
             {
-                string siteText = client.DownloadString("https://cars.av.by/bmw/3-reihe-e36/page/"+count).Replace(" ", string.Empty);
+                string siteText = client.DownloadString("https://cars.av.by/bmw/3-reihe-e36/page/" + count).Replace(" ", string.Empty);
 
 
                 string findstr = "listing-item-title";
@@ -52,13 +22,14 @@ namespace parser
                 int pointOnStr = 0;
                 int firstPointOnStr = 0;
                 int secondPointonStr = 0;
-                
+
+                var processedText = siteText;
 
                 for (int i = 0; i < carsOnPage; i++)
                 {
-                    pointOnStr = siteText.IndexOf(findstr);
-                    href = siteText.Substring(pointOnStr);
-                    siteText = siteText.Substring(pointOnStr + findstr.Length);
+                    pointOnStr = processedText.IndexOf(findstr);
+                    href = processedText.Substring(pointOnStr);
+                    processedText = processedText.Substring(pointOnStr + findstr.Length);
 
                     firstPointOnStr = href.IndexOf("href=");
                     secondPointonStr = href.IndexOf("</a>");
@@ -73,40 +44,43 @@ namespace parser
                     carsList.Add(href);
                 }
 
+                string findstr1 = "pages-numbers-item--active";
+                string flagnextpage = "pages-numbers-item";
+
+                pointOnStr = siteText.IndexOf(findstr1);
+                siteText = siteText.Substring(pointOnStr + findstr.Length);
+                var pointOnStrFlag = siteText.IndexOf(flagnextpage);
+                if (pointOnStrFlag == -1)
+                    break;
             }
 
             return carsList;
         }
-        public static void /*List<Auto>*/ GetInfoCars()
+
+
+        public static void GetCarsInfo()
         {
             var client = new System.Net.WebClient();
-            List<string> href = new List<string>();
-            string siteText = "";
-            string tempString = "";
-            string findstr = "";
-            List<Auto> cars = new List<Auto>();
-            int firstPointOnStr = 0;
-            //int secondPointonStr = 0;
-            int intInfo = 0;
+            var firstStringToLookUp = "card-price-main";
+            var cars = new List<Auto>();
 
-            href = getHrefCar();
-            for(int i =0; i < href.Count; i++)
+            var carList = GetCarList();
+            for (int i = 0; i < carList.Count; i++)
             {
-                siteText = client.DownloadString(href[i]).Replace(" ", string.Empty);
+
+                var siteText = client.DownloadString(carList[i]).Replace(" ", string.Empty);
                 System.Threading.Thread.Sleep(100);
-                findstr = "card-price-main";
-                firstPointOnStr = siteText.IndexOf(findstr);
-                tempString = siteText.Substring(firstPointOnStr + findstr.Length,40);
-                intInfo = Convert.ToInt32(System.Text.RegularExpressions.Regex.Replace(tempString, @"[^\d]+", ""));
+
+                var firstPointOnStr = siteText.IndexOf(firstStringToLookUp);
+                var tempString = siteText.Substring(firstPointOnStr + firstStringToLookUp.Length,40);
+
+                var intInfo = Convert.ToInt32(System.Text.RegularExpressions.Regex.Replace(tempString, @"[^\d]+", ""));
+
                 cars.Add(new Auto());
                 cars[i].Price = intInfo;
 
-                Console.WriteLine(cars[i].Price +"\t"+ href[i]);
-
+                Console.WriteLine(cars[i].Price +"\t"+ carList[i]);
             }
-
-
-            //return cars;
         }
     }
 }

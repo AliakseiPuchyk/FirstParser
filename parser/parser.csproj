@@ -43,7 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="avto\Auto.cs" />
+    <Compile Include="IHtmlGrabber.cs" />
+    <Compile Include="LogTestcs.cs" />
     <Compile Include="Parser.cs" />
+    <Compile Include="ParserToShow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

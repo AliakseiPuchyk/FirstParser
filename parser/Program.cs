@@ -1,20 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-namespace parser
+
+namespace Parser
 {
     class Program
     {
         static void Main(string[] args)
         {
-            
-            Parser.GetInfoCars();
+            //Parser.GetCarsInfo();
 
-            Console.WriteLine("Ready!!!!");
-            Console.ReadKey();
+            // Console.WriteLine("Ready!!!!");
+            //Console.ReadKey();
 
+            var grabber = new HtmlGrabber();
+
+            var parser = new ParserToShow(grabber);
+
+            parser.Start("https://httpstat.us/503");
         }
     }
 }

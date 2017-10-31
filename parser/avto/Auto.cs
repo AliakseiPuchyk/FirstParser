@@ -1,62 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace parser
+namespace Parser
 {
-    class Auto
+    public class Auto
     {
-        private int year; //год выпуска
-        private string condition; //состояние
-        private int mileage; //пробег
-        private string typeFuel; //тип топлива
-        private double theVolume; //объем
-        private string colour; //цвет
-        private string bodyType; //тип кузова
-        private string transmission; //коробка
-        private string drive; //привод
-        private double price;
-
-        public Auto()
-        {
-            year = 0;
-            condition = "";
-            mileage = 0;
-            typeFuel = "";
-            theVolume = 0.0;
-            colour = "";
-            bodyType = "";
-            transmission = "";
-            drive = "";
-            price = 0.0;
-        }
-        ~Auto() { }
-
-        public int Year { get { return this.year; } set { this.year = value; } }
-        public string Condition { get { return this.condition; } set { this.condition = value; } }
-        public int Mileage { get { return this.mileage; } set { this.mileage = value; } }
-        public string TypeFuel { get { return this.typeFuel; } set { this.typeFuel = value; } }
-        public double TheVolume { get { return this.theVolume; } set { this.theVolume = value; } }
-        public string Colour { get { return this.colour; } set { this.colour = value; } }
-        public string BodyType { get { return this.bodyType; } set { this.bodyType = value; } }
-        public string Transmission { get { return this.transmission; } set { this.transmission = value; } }
-        public string Drive { get { return this.drive; } set { this.drive = value; } }
-        public double Price { get { return this.price; } set { this.price = value; } }
+        public int Year { get; set; } //год выпуска
+        public string Condition { get; set; } //состояние
+        public int Mileage { get; set; }  //пробег
+        public string TypeFuel { get; set; }  //тип топлива
+        public double TheVolume { get; set; } //объем
+        public string Colour { get; set; }  //цвет
+        public string BodyType { get; set; } //тип кузова
+        public string Transmission { get; set; } //коробка
+        public string Drive { get; set; } //привод
+        public double Price { get; set; }
 
         public void PrintInfo()
         {
-            Console.WriteLine("Год:" + year + "\n" + 
-                              "Cостояние:" + condition + "\n" +
-                              "Пробег:" + mileage + "\n" +
-                              "Тип топлива:" + typeFuel + "\n" +
-                              "Объем:" + theVolume + "\n" +
-                              "Цвет:" + colour + "\n" +
-                              "Тип кузова:" + bodyType + "\n" +
-                              "Трансмиссия:" + transmission + "\n" +
-                              "Привод:" + drive + "\n" +
-                              "Цена:" + price + "\n" 
+            Console.WriteLine("Год:" + Year + "\n" + 
+                              "Cостояние:" + Condition + "\n" +
+                              "Пробег:" + Mileage + "\n" +
+                              "Тип топлива:" + TypeFuel + "\n" +
+                              "Объем:" + TheVolume + "\n" +
+                              "Цвет:" + Colour + "\n" +
+                              "Тип кузова:" + BodyType + "\n" +
+                              "Трансмиссия:" + Transmission + "\n" +
+                              "Привод:" + Drive + "\n" +
+                              "Цена:" + Price + "\n" 
                               );
         }
 
